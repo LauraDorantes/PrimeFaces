@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id="form1">
+            <p:outputPanel id="outputPannelAddProducto">
+            <p:panelGrid columns="1">
+            <p:selectOneListbox id="basic" value="#{productoHelper.producto.marca}">
+                <f:selectItem itemLabel="Option 1" itemValue="1" />
+                <f:selectItem itemLabel="Option 2" itemValue="2" />
+                <f:selectItem itemLabel="Option 3" itemValue="3" />
+            </p:selectOneListbox>
+            <p:selectOneListbox id="basic" value="#{productoHelper.producto.provedor}">
+                <f:selectItem itemLabel="Option 1" itemValue="1" />
+                <f:selectItem itemLabel="Option 2" itemValue="2" />
+                <f:selectItem itemLabel="Option 3" itemValue="3" />
+            </p:selectOneListbox>
+              
+                <p:outputLabel for="nombre" value="Nombre" />
+                <p:inputText id="nombre" value="#{productoHelper.producto.nombre}" required="true" requiredMessage="Campo requerido" validatorMessage="No es un numero"/>
+                <p:message for="nombre" />
+                
+                <p:outputLabel for="descripcion" value="Descripcion" />
+                <p:inputText id="descripcion" value="#{productoHelper.producto.descripcion}" required="true" requiredMessage="Campo requerido" validatorMessage="No es un numero"/>
+                <p:message for="descripcion" />
+                
+                <p:outputLabel for="url" value="URL" />
+                <p:inputText id="url" value="#{productoHelper.producto.url}" required="true" requiredMessage="Campo requerido" validatorMessage="No es un numero"/>
+                <p:message for="url" />
+                
+                <p:outputLabel for="preciopublico" value="PrecioPublico" />
+                <p:inputText id="preciopublico" value="#{productoHelper.producto.preciopublico}" required="true" requiredMessage="Campo requerido" validatorMessage="No es un numero"/>
+                <p:message for="preciopublico" />
+                
+                <p:outputLabel for="costo" value="Costo" />
+                <p:inputText id="costo" value="#{productoHelper.producto.costo}" required="true" requiredMessage="Campo requerido" validatorMessage="No es un numero"/>
+                <p:message for="costo" />
+             
+                <p:commandButton  id="commandButtonAdd" action="#{productoHelper.addProducto()}" value="Guardar" process="@form" update="form2:dataTableProducto outputPannelAddProducto" rendered="#{ not productoHelper.edit}"/>
+                <p:commandButton  id="commandButtonUpdate" action="#{productoHelper.updateProducto()}" value="Actualizar" process="@form" update="form2:dataTableProducto outputPannelAddProducto" rendered="#{productoHelper.edit}"/>
+              </p:panelGrid>
+            </p:outputPanel>
+        </h:form>
+         <h:form id="form2">
+            <p:dataTable id="dataTableProducto" var="producto" value="#{productoHelper.productoList}" style="margin-bottom:40px">
+                <f:facet name="header">
+                    Producto
+                </f:facet>
+                <p:column headerText="ID" >
+                <h:outputText value="#{producto.id}" />
+                </p:column>
+                <p:column headerText="Nombre" >
+                    <h:outputText value="#{producto.nombre}" />
+                </p:column>
+                <p:column headerText="Descripcion" >
+                <h:outputText value="#{producto.descripcion}" />
+                </p:column>
+                <p:column headerText="Url" >
+                <h:outputText value="#{producto.url}" />
+                </p:column>
+                <p:column headerText="Precio Publico" >
+                <h:outputText value="#{producto.preciopublico}" />
+                </p:column>
+                <p:column headerText="Costo" >
+                <h:outputText value="#{producto.costo}" />
+                </p:column>
+                <p:column headerText="Acciones" >
+                <p:commandButton  id="editar" action="#{productoHelper.editProducto(producto.id)}" value="Editar" process="@this" update="form1:outputPannelAddProducto"/>            
+                <p:commandButton  id="delete" action="#{productoHelper.deleteProducto(producto.id)}" value="Delete" process="@this" update="form2:dataTableProducto"/>            
+                </p:column>
+            </p:dataTable>
+         </h:form>
+    </h:body>
+</html>

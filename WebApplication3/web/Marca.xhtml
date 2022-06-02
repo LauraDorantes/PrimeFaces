@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Marca</title>
+    </h:head>
+    <h:body>
+        <h:form id="form1">
+            <p:outputPanel id="outputPannelAddMarca">
+              <p:panelGrid columns="1">
+                <p:outputLabel for="marca" value="Marca" />
+                <p:inputText id="marca" value="#{marcaHelper.marca.marca}" required="true" requiredMessage="Campo requerido" validatorMessage="No es un numero"/>
+                <p:message for="marca" />
+                <p:commandButton  id="commandButtonAdd" action="#{marcaHelper.addMarca()}" value="Guardar" process="@form" update="form2:dataTableMarca outputPannelAddMarca" rendered="#{ not marcaHelper.edit}"/>
+                <p:commandButton  id="commandButtonUpdate" action="#{marcaHelper.updateMarca()}" value="Actualizar" process="@form" update="form2:dataTableMarca outputPannelAddMarca" rendered="#{marcaHelper.edit}"/>
+              </p:panelGrid>
+            </p:outputPanel>
+        </h:form>
+         <h:form id="form2">
+            <p:dataTable id="dataTableMarca" var="marca" value="#{marcaHelper.marcaList}" style="margin-bottom:40px">
+                <f:facet name="header">
+                    Marca
+                </f:facet>
+                <p:column headerText="ID" >
+                <h:outputText value="#{marca.id}" />
+                </p:column>
+                <p:column headerText="Marca" >
+                    <h:outputText value="#{marca.marca}" />
+                </p:column>
+                <p:column headerText="Acciones" >
+                <p:commandButton  id="editar" action="#{marcaHelper.editMarca(marca.id)}" value="Editar" process="@this" update="form1:outputPannelAddMarca"/>            
+                <p:commandButton  id="delete" action="#{marcaHelper.deleteMarca(marca.id)}" value="Delete" process="@this" update="form2:dataTableMarca"/>            
+                </p:column>
+            </p:dataTable>
+         </h:form>
+    </h:body>
+</html>

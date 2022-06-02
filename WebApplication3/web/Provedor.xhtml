@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Provedor</title>
+    </h:head>
+    <h:body>
+        <h:form id="form1">
+            <p:outputPanel id="outputPannelAddProvedor">
+              <p:panelGrid columns="1">
+                <p:outputLabel for="provedor" value="Provedor" />
+                <p:inputText id="provedor" value="#{provedorHelper.provedor.nombre}" required="true" requiredMessage="Campo requerido" validatorMessage="No es un numero"/>
+                <p:message for="provedor" />
+                <p:commandButton  id="commandButtonAdd" action="#{provedorHelper.addProvedor()}" value="Guardar" process="@form" update="form2:dataTableProvedor outputPannelAddProvedor" rendered="#{ not provedorHelper.edit}"/>
+                <p:commandButton  id="commandButtonUpdate" action="#{provedorHelper.updateProvedor()}" value="Actualizar" process="@form" update="form2:dataTableProvedor outputPannelAddProvedor" rendered="#{provedorHelper.edit}"/>
+              </p:panelGrid>
+            </p:outputPanel>
+        </h:form>
+         <h:form id="form2">
+            <p:dataTable id="dataTableProvedor" var="marca" value="#{provedorHelper.provedorList}" style="margin-bottom:40px">
+                <f:facet name="header">
+                    Provedor
+                </f:facet>
+                <p:column headerText="ID" >
+                <h:outputText value="#{provedor.id}" />
+                </p:column>
+                <p:column headerText="Provedor" >
+                    <h:outputText value="#{provedor.nombre}" />
+                </p:column>
+                <p:column headerText="Acciones" >
+                <p:commandButton  id="editar" action="#{provedorHelper.editProvedor(provedor.id)}" value="Editar" process="@this" update="form1:outputPannelAddProvedor"/>            
+                <p:commandButton  id="delete" action="#{provedorHelper.deleteProvedor(provedor.id)}" value="Delete" process="@this" update="form2:dataTableProvedor"/>            
+                </p:column>
+            </p:dataTable>
+         </h:form>
+    </h:body>
+</html>
